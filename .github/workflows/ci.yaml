@@ -23,6 +23,11 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Build and push local-api-gateway Image
+      run: |
+        docker build -t chandima99/local-api-gateway:${{ github.sha }} ./auth-service
+        docker push chandima99/local-api-gateway:${{ github.sha }}
+        
     - name: Build and push Auth Service Image
       run: |
         docker build -t chandima99/auth-service:${{ github.sha }} ./auth-service
