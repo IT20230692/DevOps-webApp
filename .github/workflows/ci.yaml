@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI/CD Pipeline
 
 on:
   push:
@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth-service, add-service, user-service, review-service, deliver-service, ordermanagement-service, local-api-gateway]
 
     steps:
     - name: Checkout code
@@ -23,22 +26,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # Ensure each Docker build uses the correct directory
-    - name: Build and push Auth Service Image
+    - name: Build and push Docker Image
       run: |
-        docker build -t chandima99/auth-service:${{ github.sha }} ./auth-service
-        docker push chandima99/auth-service:${{ github.sha }}
-
-    # Repeat for other services, ensuring each directory is correct
-    - name: Build and push Add Service Image
-      run: |
-        docker build -t chandima99/add-service:${{ github.sha }} ./add-service
-        docker push chandima99/add-service:${{ github.sha }}
-
-    # Add the local-api-gateway if there's a specific directory for it
-    - name: Build and push local-api-gateway Image
-      run: |
-        docker build -t chandima99/local-api-gateway:${{ github.sha }} ./local-api-gateway
-        docker push chandima99/local-api-gateway:${{ github.sha }}
-
-# Add other services similarly
+        docker build -t chandima99/${{ matrix.service }}:${{ github.sha }} ./${{ matrix.service }}
+        docker push chandima99/${{ matrix.service }}:${{ github.sha }}
