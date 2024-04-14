@@ -31,5 +31,6 @@ jobs:
 
     - name: Build and push Docker Image
       run: |
-        docker build -t chandima99/${{ matrix.service }}:${{ github.sha }} ./${{ matrix.service }}
-        docker push chandima99/${{ matrix.service }}:${{ github.sha }}
+        docker build -t chandima99/auth-service:${{ github.sha }} ./auth-service
+        docker push chandima99/auth-service:${{ github.sha }}
+
