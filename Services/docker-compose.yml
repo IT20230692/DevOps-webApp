@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  add-service:
+    build:
+      context: ./add-service
+    ports:
+      - '5000:5000'
+    environment:
+      MONGO_URL: mongodb+srv://herbaleguru:herbaleguru@cluster0.01eo9pp.mongodb.net/HerbalGuru
+      JWT_KEY: 9F4U/YJTCx1v0+G4jtFBCA==
+
+  auth-service:
+    build:
+      context: ./auth-service
+    ports:
+      - '5001:5001'
+    environment:
+      MONGO_URL: mongodb+srv://herbaleguru:herbaleguru@cluster0.01eo9pp.mongodb.net/HerbalGuru
+      JWT_KEY: 9F4U/YJTCx1v0+G4jtFBCA==
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - '5003:5003'
+    environment:
+      MONGO_URL: mongodb+srv://herbaleguru:herbaleguru@cluster0.01eo9pp.mongodb.net/HerbalGuru
+      JWT_KEY: 9F4U/YJTCx1v0+G4jtFBCA==
+
+  review-service:
+    build:
+      context: ./review-service
+    ports:
+      - '5002:5002'
+    environment:
+      MONGO_URL: mongodb+srv://herbaleguru:herbaleguru@cluster0.01eo9pp.mongodb.net/HerbalGuru
+      JWT_KEY: 9F4U/YJTCx1v0+G4jtFBCA==
+
+  deliver-service:
+    build:
+      context: ./deliver-service
+    ports:
+      - '5004:5004'
+    environment:
+      MONGO_URL: mongodb+srv://herbaleguru:herbaleguru@cluster0.01eo9pp.mongodb.net/HerbalGuru
+      JWT_KEY: 9F4U/YJTCx1v0+G4jtFBCA==
+
+  ordermanagement-service:
+    build:
+      context: ./ordermanagement-service
+    ports:
+      - '5005:5005'
+    environment:
+      MONGO_URL: mongodb+srv://herbaleguru:herbaleguru@cluster0.01eo9pp.mongodb.net/HerbalGuru
+      JWT_KEY: 9F4U/YJTCx1v0+G4jtFBCA==
+
+  local-api-gateway:
+    build:
+      context: ./local-api-gateway
+    ports:
+      - '8000:8000'
+    depends_on:
+      - add-service
+      - auth-service
+      - user-service
+      - review-service
+      - deliver-service
+      - ordermanagement-service
+      
