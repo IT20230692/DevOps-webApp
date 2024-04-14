@@ -23,37 +23,22 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and push local-api-gateway Image
-      run: |
-        docker build -t chandima99/local-api-gateway:${{ github.sha }} ./auth-service
-        docker push chandima99/local-api-gateway:${{ github.sha }}
-        
+    # Ensure each Docker build uses the correct directory
     - name: Build and push Auth Service Image
       run: |
         docker build -t chandima99/auth-service:${{ github.sha }} ./auth-service
         docker push chandima99/auth-service:${{ github.sha }}
 
+    # Repeat for other services, ensuring each directory is correct
     - name: Build and push Add Service Image
       run: |
         docker build -t chandima99/add-service:${{ github.sha }} ./add-service
         docker push chandima99/add-service:${{ github.sha }}
 
-    - name: Build and push User Service Image
+    # Add the local-api-gateway if there's a specific directory for it
+    - name: Build and push local-api-gateway Image
       run: |
-        docker build -t chandima99/user-service:${{ github.sha }} ./user-service
-        docker push chandima99/user-service:${{ github.sha }}
+        docker build -t chandima99/local-api-gateway:${{ github.sha }} ./local-api-gateway
+        docker push chandima99/local-api-gateway:${{ github.sha }}
 
-    - name: Build and push Review Service Image
-      run: |
-        docker build -t chandima99/review-service:${{ github.sha }} ./review-service
-        docker push chandima99/review-service:${{ github.sha }}
-
-    - name: Build and push Deliver Service Image
-      run: |
-        docker build -t chandima99/deliver-service:${{ github.sha }} ./deliver-service
-        docker push chandima99/deliver-service:${{ github.sha }}
-
-    - name: Build and push Order Management Service Image
-      run: |
-        docker build -t chandima99/ordermanagement-service:${{ github.sha }} ./ordermanagement-service
-        docker push chandima99/ordermanagement-service:${{ github.sha }}
+# Add other services similarly
